@@ -15,7 +15,8 @@ export const userSchema = z.object({
 		.regex(/[@$!%*?&#]/, "Must contain a special character")
 });
 
-export type User = z.infer<typeof userSchema>;
+export type UserSchema = z.infer<typeof userSchema>;
+
 export const loginSchema = z.object({
 	email: z.email().trim().toLowerCase(),
 	password: z

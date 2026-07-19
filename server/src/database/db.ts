@@ -12,9 +12,7 @@ const sql = new Pool({
 });
 
 export default {
-	query: (
-		text: string,
-		params: (string | number | boolean | undefined | null)[]
-	) => sql.query(text, params),
+	query: (text: string, params: (string | number | null | Date | boolean)[]) =>
+		sql.query(text, params),
 	sql
 };

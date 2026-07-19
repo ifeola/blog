@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS users (
   date_of_birth DATE NOT NULL,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-  deleted_at TIMESTAMPTZ NOT NULL
+  deleted_at TIMESTAMPTZ DEFAULT NULL
 );
 
 CREATE TABLE IF NOT EXISTS posts (
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS posts (
   published_at TIMESTAMPTZ,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-  deleted_at TIMESTAMPTZ NOT NULL
+  deleted_at TIMESTAMPTZ DEFAULT NULL
 );
 
 CREATE TABLE IF NOT EXISTS comments (
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS comments (
   content TEXT NOT NULL,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-  deleted_at TIMESTAMPTZ NOT NULL
+  deleted_at TIMESTAMPTZ DEFAULT NULL
 );
 
 CREATE INDEX idx_posts_author ON posts(author_id);
