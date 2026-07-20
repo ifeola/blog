@@ -1,0 +1,211 @@
+@import "tailwindcss";
+
+/* Make `dark:` respond to [data-theme="dark"] instead of a system query,
+   so the same manual toggle from the plain-CSS version still works. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ==========================================================================
+   1. SEMANTIC TOKENS
+   Raw values that actually flip between light and dark. Kept outside
+   @theme so they can be reassigned per-theme; @theme just points at them.
+   ========================================================================== */
+:root {
+  --bg-canvas: var(--color-cream);
+  --bg-surface: #ffffff;
+  --bg-surface-alt: #fafafa;
+  --bg-accent-soft: #e9dfd1;
+
+  --fg-primary: var(--color-ink);
+  --fg-secondary: #525252;
+  --fg-tertiary: #737373;
+  --fg-on-accent: var(--color-ink);
+
+  --border-default: #d4d4d4;
+  --border-strong: #a3a3a3;
+
+  --accent: var(--color-clay);
+  --accent-strong: var(--color-clay-strong);
+
+  --elevation-card: 0 1px 2px rgba(44, 44, 44, 0.05), 0 8px 24px rgba(44, 44, 44, 0.07);
+}
+
+[data-theme="dark"] {
+  --bg-canvas: var(--color-espresso-deep);
+  --bg-surface: var(--color-espresso);
+  --bg-surface-alt: var(--color-espresso-soft);
+  --bg-accent-soft: #3a331f;
+
+  --fg-primary: #fafafa;
+  --fg-secondary: #d4d4d4;
+  --fg-tertiary: #a3a3a3;
+  --fg-on-accent: #171717;
+
+  --border-default: #373737;
+  --border-strong: #525252;
+
+  --accent-strong: #dcc7ac;
+
+  --elevation-card: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+/* ==========================================================================
+   2. THEME — generates the Tailwind utilities (bg-canvas, text-h1, rounded-card…)
+   ========================================================================== */
+@theme {
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  /* Brand + warm-dark primitives (fixed hex, don't change with theme) */
+  --color-clay: #d0bb9f;
+  --color-clay-strong: #b7a286;
+  --color-cream: #f3ece3;
+  --color-ink: #2c2c2c;
+  --color-espresso-deep: #14120f;
+  --color-espresso: #1e1b17;
+  --color-espresso-soft: #2c2721;
+
+  /* AAA neutral scale */
+  --color-gray-50: #fafafa;
+  --color-gray-100: #f5f5f5;
+  --color-gray-200: #e5e5e5;
+  --color-gray-300: #d4d4d4;
+  --color-gray-400: #a3a3a3;
+  --color-gray-500: #737373;
+  --color-gray-600: #525252;
+  --color-gray-700: #404040;
+  --color-gray-800: #262626;
+  --color-gray-900: #171717;
+  --color-gray-950: #0a0a0a;
+
+  /* Semantic colors — thin wrappers around section 1, so bg-canvas etc.
+     automatically swap under [data-theme="dark"] */
+  --color-canvas: var(--bg-canvas);
+  --color-surface: var(--bg-surface);
+  --color-surface-alt: var(--bg-surface-alt);
+  --color-accent-soft: var(--bg-accent-soft);
+  --color-fg-primary: var(--fg-primary);
+  --color-fg-secondary: var(--fg-secondary);
+  --color-fg-tertiary: var(--fg-tertiary);
+  --color-fg-on-accent: var(--fg-on-accent);
+  --color-border: var(--border-default);
+  --color-border-strong: var(--border-strong);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+
+  /* Typography scale -> text-h1 … text-button utilities (size + line-height paired) */
+  --text-h1: 3.5rem;
+  --text-h1--line-height: 4.5rem;
+  --text-h2: 2.5rem;
+  --text-h2--line-height: 3.5rem;
+  --text-h3: 1.75rem;
+  --text-h3--line-height: 2.5rem;
+  --text-h4: 1.625rem;
+  --text-h4--line-height: 2rem;
+  --text-h5: 1.375rem;
+  --text-h5--line-height: 2rem;
+  --text-h6: 1.25rem;
+  --text-h6--line-height: 1.75rem;
+  --text-body-lg: 1rem;
+  --text-body-lg--line-height: 1.6875rem;
+  --text-body-md: 0.875rem;
+  --text-body-md--line-height: 1.25rem;
+  --text-body-sm: 0.75rem;
+  --text-body-sm--line-height: 1rem;
+  --text-button: 0.875rem;
+  --text-button--line-height: 1.3125rem;
+
+  /* Radius -> rounded-card / rounded-pill (kept distinct from Tailwind's built-ins) */
+  --radius-card: 24px;
+  --radius-panel: 16px;
+  --radius-chip: 8px;
+  --radius-pill: 999px;
+
+  /* Max-widths -> max-w-content / max-w-page */
+  --container-content: 42rem;
+  --container-page: 72rem;
+
+  /* Shadow -> shadow-card */
+  --shadow-card: var(--elevation-card);
+}
+
+/* Note on spacing: the original 4px scale (4,8,12,16,24,32,48,64,96,128,
+   192,256,384,512,640,768) needs no custom tokens — it's already every
+   multiple of Tailwind's default 4px unit. Use the native scale directly:
+     4px  -> p-1     24px -> p-6     96px  -> p-24    384px -> p-96
+     8px  -> p-2     32px -> p-8     128px -> p-32    512px -> p-128
+     12px -> p-3     48px -> p-12    192px -> p-48     640px -> p-160
+     16px -> p-4     64px -> p-16    256px -> p-64     768px -> p-192
+   (same numbers work for m-, gap-, w-, h-, etc.) */
+
+/* ==========================================================================
+   3. BASE
+   ========================================================================== */
+@layer base {
+  body {
+    @apply bg-canvas text-fg-primary font-sans transition-colors duration-200;
+  }
+  a {
+    color: var(--fg-primary);
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+  }
+  a:hover {
+    color: var(--accent-strong);
+  }
+}
+
+/* ==========================================================================
+   4. COMPONENTS — same class names as the plain-CSS version, so existing
+   markup keeps working; each is just @apply over the new utilities.
+   ========================================================================== */
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-pill px-6 py-3
+           text-button font-semibold border border-transparent cursor-pointer
+           transition-colors duration-150;
+  }
+  .btn--primary {
+    @apply bg-fg-primary text-canvas;
+  }
+  .btn--primary:hover {
+    @apply bg-accent-strong text-fg-on-accent;
+  }
+  .btn--secondary {
+    @apply bg-transparent text-fg-primary border-border-strong;
+  }
+  .btn--secondary:hover {
+    @apply border-fg-primary;
+  }
+
+  .tag {
+    @apply inline-flex items-center rounded-pill bg-accent-soft text-fg-primary
+           text-body-sm font-medium px-3 py-1;
+  }
+
+  .card {
+    @apply bg-surface border border-border rounded-card p-8 shadow-card;
+  }
+
+  .price-card {
+    @apply rounded-card overflow-hidden shadow-card w-64;
+  }
+  .price-card--gold {
+    @apply bg-gradient-to-b from-cream to-clay text-ink;
+  }
+  .price-card--gold .price-card__footer {
+    @apply bg-gradient-to-b from-espresso-soft to-espresso-deep text-cream;
+  }
+  .price-card--espresso {
+    @apply bg-gradient-to-b from-espresso-soft to-espresso-deep text-cream;
+  }
+  .price-card--espresso .price-card__footer {
+    @apply bg-gradient-to-b from-cream to-clay text-ink;
+  }
+  .price-card__footer {
+    @apply text-center font-semibold text-button py-4 px-8;
+  }
+
+  blockquote {
+    @apply my-8 py-2 px-8 border-l-[3px] border-accent text-fg-secondary text-body-lg;
+  }
+}

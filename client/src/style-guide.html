@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design System — Style Guide</title>
+<link rel="stylesheet" href="design-tokens.css">
+<link rel="stylesheet" href="components.css">
+<style>
+  * { box-sizing: border-box; }
+  .wrap { max-width: var(--max-page-width); margin: 0 auto; padding: 0 var(--space-6); }
+
+  .topbar {
+    position: sticky; top: 0; z-index: 10;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: var(--space-4) var(--space-6);
+    background: var(--bg-canvas);
+    border-bottom: 1px solid var(--border-default);
+  }
+  .topbar .brand { display: flex; align-items: center; gap: var(--space-3); }
+  .topbar .brand-dot { width: 12px; height: 12px; border-radius: var(--radius-full); background: var(--accent); }
+
+  .hero { padding: var(--space-12) 0 var(--space-9); }
+  .eyebrow {
+    display: inline-block; margin-bottom: var(--space-4);
+    font-size: var(--text-body-sm-size); line-height: var(--text-body-sm-lh);
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-tertiary);
+  }
+  .hero p.lede { max-width: 40rem; margin-top: var(--space-5); }
+
+  section.block { padding: var(--space-9) 0; border-top: 1px solid var(--border-default); }
+  section.block .block-head { margin-bottom: var(--space-7); max-width: 40rem; }
+  section.block .block-head p { margin-top: var(--space-3); }
+
+  /* Color swatches, echoing an Aa-preview card format */
+  .swatch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: var(--space-4); }
+  .swatch-card {
+    border-radius: var(--radius-lg);
+    padding: var(--space-6) var(--space-5) var(--space-5);
+    display: flex; flex-direction: column; justify-content: space-between;
+    min-height: 180px;
+    border: 1px solid var(--border-default);
+  }
+  .swatch-card .aa { font-size: 2.5rem; font-weight: 700; line-height: 1; margin-bottom: var(--space-6); }
+  .swatch-card .label { font-size: var(--text-body-sm-size); opacity: .8; }
+  .swatch-card .hex { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: var(--text-body-md-size); font-weight: 600; margin-top: var(--space-1); }
+
+  /* Neutral ramp comparison */
+  .ramp-cols { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-7); }
+  @media (max-width: 720px) { .ramp-cols { grid-template-columns: 1fr; } }
+  .ramp-title { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-4); }
+  .ramp-title .pill { font-size: var(--text-body-sm-size); padding: 2px var(--space-3); border-radius: var(--radius-full); background: var(--bg-accent-soft); }
+  .ramp-swatch {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--border-default);
+    border-top: none;
+    font-size: var(--text-body-sm-size);
+  }
+  .ramp-swatch:first-of-type { border-top: 1px solid var(--border-default); border-radius: var(--radius-sm) var(--radius-sm) 0 0; }
+  .ramp-swatch:last-of-type { border-radius: 0 0 var(--radius-sm) var(--radius-sm); }
+  .ramp-swatch .step { color: var(--text-tertiary); }
+  .ramp-swatch .hex { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-weight: 600; }
+
+  /* Typography table */
+  table.type-table { width: 100%; border-collapse: collapse; }
+  table.type-table th {
+    text-align: left; font-size: var(--text-body-sm-size); text-transform: uppercase;
+    letter-spacing: .08em; color: var(--text-tertiary); font-weight: 500;
+    padding-bottom: var(--space-3); border-bottom: 1px solid var(--border-default);
+  }
+  table.type-table td { padding: var(--space-4) 0; border-bottom: 1px solid var(--border-default); vertical-align: middle; }
+  table.type-table td.meta { color: var(--text-tertiary); font-size: var(--text-body-sm-size); }
+
+  /* Spacing bars */
+  .space-row { display: flex; align-items: center; gap: var(--space-4); margin-bottom: var(--space-3); }
+  .space-row .space-label { width: 70px; flex-shrink: 0; font-size: var(--text-body-sm-size); color: var(--text-tertiary); font-family: ui-monospace, monospace; }
+  .space-row .space-bar { height: 14px; background: var(--accent); border-radius: 3px; }
+
+  /* Component demo layout */
+  .demo-row { display: flex; flex-wrap: wrap; gap: var(--space-4); align-items: center; margin-bottom: var(--space-7); }
+  .article-preview { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-7); align-items: start; }
+  @media (max-width: 720px) { .article-preview { grid-template-columns: 1fr; } }
+  .article-preview .card .tag { margin-bottom: var(--space-4); }
+  .article-preview .card .h4 { margin-bottom: var(--space-3); }
+
+  footer.foot { padding: var(--space-9) 0 var(--space-12); border-top: 1px solid var(--border-default); }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <span class="brand-dot"></span>
+    <span class="body-md" style="color:var(--text-primary); font-weight:600;">Design System</span>
+  </div>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+    <span id="themeIcon">🌙</span> <span id="themeLabel">Dark mode</span>
+  </button>
+</div>
+
+<div class="wrap">
+
+  <section class="hero">
+    <span class="eyebrow">Blog Design System</span>
+    <h1 class="h1">One system,<br>every post.</h1>
+    <p class="lede body-lg">Color, type, spacing and components for a plain HTML &amp; CSS blog —
+      built from a warm clay-and-cream palette, an AAA-contrast neutral scale for light and dark
+      reading, an Inter type scale, and a 4px spacing rhythm.</p>
+  </section>
+
+  <!-- COLOR -->
+  <section class="block" id="color">
+    <div class="block-head">
+      <span class="eyebrow">01 — Color</span>
+      <h2 class="h2">Brand + neutrals</h2>
+      <p class="body-md">Three brand colors carry the identity. A twelve-step AAA-contrast gray
+        scale — tuned separately for light and dark backgrounds — handles everything structural:
+        text, borders, surfaces.</p>
+    </div>
+
+    <div class="swatch-grid" style="margin-bottom: var(--space-9);">
+      <div class="swatch-card" style="background:#D0BB9F; color:#2C2C2C;">
+        <div class="aa">Aa</div>
+        <div><div class="label">Clay — accent</div><div class="hex">#D0BB9F</div></div>
+      </div>
+      <div class="swatch-card" style="background:#F3ECE3; color:#2C2C2C;">
+        <div class="aa">Aa</div>
+        <div><div class="label">Cream — canvas</div><div class="hex">#F3ECE3</div></div>
+      </div>
+      <div class="swatch-card" style="background:#2C2C2C; color:#FAFAFA;">
+        <div class="aa">Aa</div>
+        <div><div class="label">Ink — text</div><div class="hex">#2C2C2C</div></div>
+      </div>
+    </div>
+
+    <div class="ramp-cols">
+      <div>
+        <div class="ramp-title"><span class="h6" style="margin:0;">Light</span><span class="pill">AAA pass</span></div>
+        <div class="ramp-swatch" style="background:#FFFFFF;"><span class="step">Base</span><span class="hex">#FFFFFF</span></div>
+        <div class="ramp-swatch" style="background:#FAFAFA;"><span class="step">50</span><span class="hex">#FAFAFA</span></div>
+        <div class="ramp-swatch" style="background:#F5F5F5;"><span class="step">100</span><span class="hex">#F5F5F5</span></div>
+        <div class="ramp-swatch" style="background:#E5E5E5;"><span class="step">200</span><span class="hex">#E5E5E5</span></div>
+        <div class="ramp-swatch" style="background:#D4D4D4;"><span class="step">300</span><span class="hex">#D4D4D4</span></div>
+        <div class="ramp-swatch" style="background:#A3A3A3;"><span class="step">400</span><span class="hex">#A3A3A3</span></div>
+        <div class="ramp-swatch" style="background:#737373; color:#fff;"><span class="step">500</span><span class="hex">#737373</span></div>
+        <div class="ramp-swatch" style="background:#525252; color:#fff;"><span class="step">600</span><span class="hex">#525252</span></div>
+        <div class="ramp-swatch" style="background:#404040; color:#fff;"><span class="step">700</span><span class="hex">#404040</span></div>
+        <div class="ramp-swatch" style="background:#262626; color:#fff;"><span class="step">800</span><span class="hex">#262626</span></div>
+        <div class="ramp-swatch" style="background:#171717; color:#fff;"><span class="step">900</span><span class="hex">#171717</span></div>
+        <div class="ramp-swatch" style="background:#0A0A0A; color:#fff;"><span class="step">950</span><span class="hex">#0A0A0A</span></div>
+      </div>
+      <div>
+        <div class="ramp-title"><span class="h6" style="margin:0;">Dark</span><span class="pill">AAA pass</span></div>
+        <div class="ramp-swatch" style="background:#000000; color:#fff;"><span class="step">Base</span><span class="hex">#000000</span></div>
+        <div class="ramp-swatch" style="background:#0A0A0A; color:#fff;"><span class="step">50</span><span class="hex">#0A0A0A</span></div>
+        <div class="ramp-swatch" style="background:#171717; color:#fff;"><span class="step">100</span><span class="hex">#171717</span></div>
+        <div class="ramp-swatch" style="background:#262626; color:#fff;"><span class="step">200</span><span class="hex">#262626</span></div>
+        <div class="ramp-swatch" style="background:#373737; color:#fff;"><span class="step">300</span><span class="hex">#373737</span></div>
+        <div class="ramp-swatch" style="background:#525252; color:#fff;"><span class="step">400</span><span class="hex">#525252</span></div>
+        <div class="ramp-swatch" style="background:#8A8A8A;"><span class="step">500</span><span class="hex">#8A8A8A</span></div>
+        <div class="ramp-swatch" style="background:#A3A3A3;"><span class="step">600</span><span class="hex">#A3A3A3</span></div>
+        <div class="ramp-swatch" style="background:#D4D4D4;"><span class="step">700</span><span class="hex">#D4D4D4</span></div>
+        <div class="ramp-swatch" style="background:#E5E5E5;"><span class="step">800</span><span class="hex">#E5E5E5</span></div>
+        <div class="ramp-swatch" style="background:#F5F5F5;"><span class="step">900</span><span class="hex">#F5F5F5</span></div>
+        <div class="ramp-swatch" style="background:#FAFAFA;"><span class="step">950</span><span class="hex">#FAFAFA</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TYPOGRAPHY -->
+  <section class="block" id="type">
+    <div class="block-head">
+      <span class="eyebrow">02 — Typography</span>
+      <h2 class="h2">Inter, one scale, ten roles.</h2>
+      <p class="body-md">Everything from a post title down to a button label is one type family
+        so the whole site reads as a single voice.</p>
+    </div>
+
+    <table class="type-table" style="margin-bottom: var(--space-9);">
+      <thead><tr><th>Hierarchy</th><th>Weight</th><th>Size</th><th>Line height</th></tr></thead>
+      <tbody>
+        <tr><td class="h1" style="font-size:2.5rem; line-height:1;">H1 headline</td><td class="meta">Bold</td><td class="meta">56</td><td class="meta">72</td></tr>
+        <tr><td class="h2" style="font-size:1.9rem; line-height:1;">H2 headline</td><td class="meta">Bold</td><td class="meta">40</td><td class="meta">56</td></tr>
+        <tr><td class="h3" style="line-height:1;">H3 headline</td><td class="meta">Medium</td><td class="meta">28</td><td class="meta">40</td></tr>
+        <tr><td class="h4" style="line-height:1;">H4 headline</td><td class="meta">Regular</td><td class="meta">26</td><td class="meta">32</td></tr>
+        <tr><td class="h5" style="line-height:1;">H5 headline</td><td class="meta">Regular</td><td class="meta">22</td><td class="meta">32</td></tr>
+        <tr><td class="h6" style="line-height:1;">H6 headline</td><td class="meta">Regular</td><td class="meta">20</td><td class="meta">28</td></tr>
+        <tr><td class="body-lg">Body Large</td><td class="meta">Medium</td><td class="meta">16</td><td class="meta">27</td></tr>
+        <tr><td class="body-md" style="color:var(--text-primary);">Body Medium</td><td class="meta">Medium</td><td class="meta">14</td><td class="meta">20</td></tr>
+        <tr><td class="body-sm" style="color:var(--text-primary);">Body Small</td><td class="meta">Regular</td><td class="meta">12</td><td class="meta">16</td></tr>
+        <tr><td><span class="btn btn--primary" style="padding:var(--space-2) var(--space-4);">Button</span></td><td class="meta">Semibold</td><td class="meta">14</td><td class="meta">21</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- SPACING -->
+  <section class="block" id="spacing">
+    <div class="block-head">
+      <span class="eyebrow">03 — Spacing</span>
+      <h2 class="h2">A 4px rhythm.</h2>
+      <p class="body-md">Sixteen steps, each roughly 1.4–1.5× the last, cover everything from an
+        icon gap to a full-bleed section.</p>
+    </div>
+    <div id="spacingChart"></div>
+  </section>
+
+  <!-- COMPONENTS -->
+  <section class="block" id="components">
+    <div class="block-head">
+      <span class="eyebrow">04 — Components</span>
+      <h2 class="h2">Built from the tokens above.</h2>
+    </div>
+
+    <div class="demo-row">
+      <button class="btn btn--primary">Read the post</button>
+      <button class="btn btn--secondary">Subscribe</button>
+      <span class="tag">Governance</span>
+      <span class="tag">Essay</span>
+    </div>
+
+    <div class="article-preview">
+      <div class="card">
+        <span class="tag">Notes</span>
+        <h4 class="h4">Designing for a reader, not a screen</h4>
+        <p class="body-md" style="color:var(--text-secondary);">A short excerpt sets the scene
+          for the post below, using Body Medium at reduced emphasis.</p>
+        <p class="body-sm" style="margin-top:var(--space-4);">6 min read · Jul 19, 2026</p>
+      </div>
+      <div>
+        <p class="body-lg">Body Large is the article's default paragraph style — comfortable
+          at a 42-character-unit measure, generous line height, Medium weight for long reading
+          sessions.</p>
+        <blockquote>A pull-quote uses the clay accent as a left rule, keeping the same body
+          type so it never fights the surrounding paragraph.</blockquote>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p class="body-sm">Design tokens: <code>design-tokens.css</code> · Components: <code>components.css</code></p>
+  </footer>
+
+</div>
+
+<script>
+  const root = document.documentElement;
+  const btn = document.getElementById('themeToggle');
+  const icon = document.getElementById('themeIcon');
+  const label = document.getElementById('themeLabel');
+
+  function setTheme(dark) {
+    if (dark) { root.setAttribute('data-theme', 'dark'); icon.textContent = '☀️'; label.textContent = 'Light mode'; }
+    else { root.removeAttribute('data-theme'); icon.textContent = '🌙'; label.textContent = 'Dark mode'; }
+  }
+  btn.addEventListener('click', () => setTheme(!root.hasAttribute('data-theme')));
+
+  // Render spacing bars from the actual CSS custom properties, scaled to fit.
+  const steps = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16];
+  const scale = 0.5; // visual scale factor so the 768px step still fits the column
+  const chart = document.getElementById('spacingChart');
+  const cs = getComputedStyle(root);
+  steps.forEach(n => {
+    const px = parseFloat(cs.getPropertyValue(`--space-${n}`));
+    const row = document.createElement('div');
+    row.className = 'space-row';
+    row.innerHTML = `<span class="space-label">${px}px</span><span class="space-bar" style="width:${px * scale}px"></span>`;
+    chart.appendChild(row);
+  });
+</script>
+
+</body>
+</html>

@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import crypto from "crypto";
 import type { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import db from "../database/db";
@@ -104,10 +105,34 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 		message: "User successfully logged in",
 		user: {
 			...existingUser,
-			password_hash: undefined,
-			access_token: accessToken
-		}
+			password_hash: undefined
+		},
+		access_token: accessToken
 	});
 };
 
-export { login, register };
+const logout = async (req: Request, res: Response, next: NextFunction) => {
+	const token = req.cookies?.jwt_refresh;
+
+	if (token) {
+		const _incomingHash = crypto
+			.createHash("sha256")
+			.update(token)
+			.digest("hex");
+
+		await db.query("delete from refresh_tokens where token_hash = $1", [
+			_incomingHash
+		]);
+	}
+
+	res.clearCookie("jwt_refresh", {
+		sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+		secure: process.env.NODE_ENV === "production",
+		httpOnly: true,
+		path: "/api/v1/auth"
+	});
+
+	return res.json({ success: true, message: "Logged out" });
+};
+
+export { login, logout, register };
