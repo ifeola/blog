@@ -5,6 +5,7 @@ type UserResponse = {
 	middle_name: string;
 	date_of_birth: string;
 	id: string;
+	role: "user" | "admin";
 	access_token: string;
 };
 

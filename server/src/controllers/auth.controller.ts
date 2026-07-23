@@ -82,7 +82,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 	}
 
 	const { token: refreshToken, hash } = setRefreshCookie(existingUser.id, res);
-	const accessToken = access_token(existingUser.id, existingUser.user_role);
+	const accessToken = access_token(existingUser.id, existingUser.role);
 
 	let decoded: { user_id: string; type: string; exp: number };
 	try {
@@ -129,10 +129,56 @@ const logout = async (req: Request, res: Response, next: NextFunction) => {
 		sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
 		secure: process.env.NODE_ENV === "production",
 		httpOnly: true,
-		path: "/api/v1/auth"
+		path: "/api/v1"
 	});
 
 	return res.json({ success: true, message: "Logged out" });
 };
 
-export { login, logout, register };
+const me = async (req: Request, res: Response, next: NextFunction) => {
+	const token = req.cookies?.jwt_refresh;
+
+	if (!token) {
+		return res.status(401).json({ success: false, message: "Not authenticated" });
+	}
+
+	try {
+		const decoded = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET!) as {
+			user_id: string;
+			type: string;
+			exp: number;
+		};
+
+		const hash = crypto.createHash("sha256").update(token).digest("hex");
+
+		const tokenResult = await db.query(
+			"SELECT user_id FROM refresh_tokens WHERE token_hash = $1",
+			[hash]
+		);
+
+		if (tokenResult.rows.length === 0) {
+			return res.status(401).json({ success: false, message: "Invalid session" });
+		}
+
+		const user = await User.findById(decoded.user_id);
+
+		if (!user) {
+			return res.status(401).json({ success: false, message: "User not found" });
+		}
+
+		const accessToken = access_token(user.id, user.role);
+
+		return res.json({
+			success: true,
+			user: {
+				...user,
+				password_hash: undefined
+			},
+			access_token: accessToken
+		});
+	} catch (err) {
+		return next(err);
+	}
+};
+
+export { login, logout, me, register };

@@ -1,7 +1,6 @@
 import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { toast } from "sonner";
 import { z } from "zod";
 import api from "@/api/axios";
@@ -21,6 +20,7 @@ import API_PATHS from "@/utils/apiPaths";
 import type { LoginForm } from "../types/type";
 
 const Login = () => {
+	const navigate = useNavigate();
 	const setAuth = useAuthStore((state) => state.setAuth);
 
 	const user: LoginForm = {
@@ -43,15 +43,30 @@ const Login = () => {
 		}
 	});
 
-	const { mutate, isPending, isError } = useMutation({
+	const { mutate, isPending } = useMutation({
 		mutationFn: async (vals: LoginForm) => {
 			return api.post(API_PATHS.AUTH.LOGIN, vals);
 		},
 		onSuccess: (response) => {
 			setAuth(response?.data?.access_token, response?.data?.user);
+			console.log(response?.data?.access_token, response?.data?.user);
+
+			const user = response?.data?.user;
+			switch (user.role) {
+				case "admin":
+					navigate("/admin");
+					break;
+
+				case "user":
+					navigate(`/user/${user.id}`);
+					break;
+
+				default:
+					navigate("/login");
+			}
 		},
 		onError: (error) => {
-			toast(error.message, { position: "bottom-center" });
+			toast.error(error.message);
 		}
 	});
 
@@ -69,7 +84,9 @@ const Login = () => {
 					>
 						<FieldGroup>
 							<FieldSet>
-								<FieldLegend>Welcome Back!</FieldLegend>
+								<FieldLegend className="font-heading">
+									Welcome Back!
+								</FieldLegend>
 								<FieldDescription>
 									Please enter your login details
 								</FieldDescription>
@@ -84,7 +101,10 @@ const Login = () => {
 										field.state.meta.errors.length > 0;
 									return (
 										<Field>
-											<FieldLabel className="capitalize" htmlFor={field.name}>
+											<FieldLabel
+												className="capitalize font-heading"
+												htmlFor={field.name}
+											>
 												{field.name}
 											</FieldLabel>
 											<Input
@@ -125,7 +145,12 @@ const Login = () => {
 										field.state.meta.errors.length > 0;
 									return (
 										<Field>
-											<FieldLabel htmlFor={field.name}>Password</FieldLabel>
+											<FieldLabel
+												htmlFor={field.name}
+												className="capitalize font-heading"
+											>
+												{field.name}
+											</FieldLabel>
 											<Input
 												id={field.name}
 												name={field.name}
@@ -161,14 +186,14 @@ const Login = () => {
 									);
 								}}
 							/>
-							<Button type="submit">
+							<Button type="submit" className="">
 								Sign in
 								{isPending && <Spinner />}
 							</Button>
 							<div className="flex items-center justify-center gap-1 text-gray-500 text-sm">
 								<span>Don't have an account?</span>
 								<Link
-									to="/"
+									to="/register"
 									className="text-gray-900 hover:underline transition-all"
 								>
 									Sign up

@@ -25,12 +25,23 @@ class User {
 
 	static async findByEmail(email: string) {
 		const _queryText = `
-    SELECT email, first_name, last_name, middle_name, password_hash, date_of_birth, id 
+    SELECT email, first_name, last_name, middle_name, password_hash, date_of_birth, id, role 
     FROM users
     WHERE users.email = $1;
     `;
 
 		const _response = await db.query(_queryText, [email]);
+		return _response.rows[0];
+	}
+
+	static async findById(id: string) {
+		const _queryText = `
+    SELECT email, first_name, last_name, middle_name, password_hash, date_of_birth, id, role 
+    FROM users
+    WHERE users.id = $1;
+    `;
+
+		const _response = await db.query(_queryText, [id]);
 		return _response.rows[0];
 	}
 }

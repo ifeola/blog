@@ -12,7 +12,7 @@ const setRefreshCookie = (userId: string, res: Response) => {
 		secure: process.env.NODE_ENV === "production",
 		httpOnly: true,
 		maxAge: 7 * 24 * 60 * 60 * 1000,
-		path: "/api/v1/auth"
+		path: "/api/v1"
 	});
 
 	return { token, hash };
