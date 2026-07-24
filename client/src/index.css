@@ -8,17 +8,16 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-    --font-heading: var(--font-Bricolage-Grotesque);
+    --font-heading: 'Bricolage Grotesque', sans-serif;
     --font-BioRhyme: 'BioRhyme', sans-serif;
-    --font-Bricolage-Grotesque: 'Bricolage Grotesque', sans-serif;
-    --color-sidebar-ring: var(--sidebar-ring);
-    --color-sidebar-border: var(--sidebar-border);
-    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-    --color-sidebar-accent: var(--sidebar-accent);
-    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-    --color-sidebar-primary: var(--sidebar-primary);
-    --color-sidebar-foreground: var(--sidebar-foreground);
-    --color-sidebar: var(--sidebar);
+    --color-navbar-ring: var(--navbar-ring);
+    --color-navbar-border: var(--navbar-border);
+    --color-navbar-accent-foreground: var(--navbar-accent-foreground);
+    --color-navbar-accent: var(--navbar-accent);
+    --color-navbar-primary-foreground: var(--navbar-primary-foreground);
+    --color-navbar-primary: var(--navbar-primary);
+    --color-navbar-foreground: var(--navbar-foreground);
+    --color-navbar: var(--navbar);
     --color-chart-5: var(--chart-5);
     --color-chart-4: var(--chart-4);
     --color-chart-3: var(--chart-3);
@@ -58,11 +57,11 @@
     --brand-accent: oklch(64.672% 0.10999 198.714);
     --brand: oklch(17.219% 0.03009 186.868);
     --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
+    --foreground: oklch(16.861% 0.02259 263.708);
     --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
+    --card-foreground: oklch(16.861% 0.02259 263.708);
     --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
+    --popover-foreground: oklch(16.861% 0.02259 263.708);
     --primary: oklch(0.205 0 0);
     --primary-foreground: oklch(0.985 0 0);
     --secondary: oklch(0.97 0 0);
@@ -81,18 +80,20 @@
     --chart-4: oklch(0.371 0 0);
     --chart-5: oklch(0.269 0 0);
     --radius: 0.625rem;
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.708 0 0);
+    --navbar: oklch(0.985 0 0);
+    --navbar-foreground: oklch(16.861% 0.02259 263.708);
+    --navbar-primary: oklch(0.205 0 0);
+    --navbar-primary-foreground: oklch(0.985 0 0);
+    --navbar-accent: oklch(0.97 0 0);
+    --navbar-accent-foreground: oklch(0.205 0 0);
+    --navbar-border: oklch(0.922 0 0);
+    --navbar-ring: oklch(0.708 0 0);
 }
 
 .dark {
-    --background: oklch(0.145 0 0);
+    --brand-accent: oklch(70% 0.12 198.714);
+    --brand: oklch(85% 0.03 186.868);
+    --background: oklch(16.861% 0.02259 263.708);
     --foreground: oklch(0.985 0 0);
     --card: oklch(0.205 0 0);
     --card-foreground: oklch(0.985 0 0);
@@ -115,25 +116,25 @@
     --chart-3: oklch(0.439 0 0);
     --chart-4: oklch(0.371 0 0);
     --chart-5: oklch(0.269 0 0);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.556 0 0);
+    --navbar: oklch(0.205 0 0);
+    --navbar-foreground: oklch(0.985 0 0);
+    --navbar-primary: oklch(0.488 0.243 264.376);
+    --navbar-primary-foreground: oklch(0.985 0 0);
+    --navbar-accent: oklch(0.269 0 0);
+    --navbar-accent-foreground: oklch(0.985 0 0);
+    --navbar-border: oklch(1 0 0 / 10%);
+    --navbar-ring: oklch(0.556 0 0);
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
-    }
-  body {
-    @apply bg-background text-foreground;
-    }
-  html {
-    font-family: "BioRhyme", sans-serif;
-  }
+	* {
+		@apply border-border outline-ring/50;
+	}
+	body {
+		@apply bg-background text-foreground;
+	}
+	html {
+		font-family: "BioRhyme", sans-serif;
+	}
 }
 
