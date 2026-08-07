@@ -11,7 +11,7 @@ import {
 	FieldGroup,
 	FieldLabel,
 	FieldLegend,
-	FieldSet
+	FieldSet,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
@@ -25,22 +25,22 @@ const Login = () => {
 
 	const user: LoginForm = {
 		email: "",
-		password: ""
+		password: "",
 	};
 
 	const LoginSchema = z.object({
 		email: z.email("Enter a valid email").trim(),
-		password: z.string().min(8, "Password must be at least 8 characters")
+		password: z.string().min(8, "Password must be at least 8 characters"),
 	});
 
 	const form = useForm({
 		defaultValues: user,
 		validators: {
-			onChange: LoginSchema
+			onChange: LoginSchema,
 		},
 		onSubmit: ({ value }) => {
 			mutate(value);
-		}
+		},
 	});
 
 	const { mutate, isPending } = useMutation({
@@ -67,7 +67,7 @@ const Login = () => {
 		},
 		onError: (error) => {
 			toast.error(error.message);
-		}
+		},
 	});
 
 	return (
@@ -80,8 +80,7 @@ const Login = () => {
 							e.preventDefault();
 							e.stopPropagation();
 							form.handleSubmit();
-						}}
-					>
+						}}>
 						<FieldGroup>
 							<FieldSet>
 								<FieldLegend className="font-heading">
@@ -94,17 +93,16 @@ const Login = () => {
 							<form.Field
 								name="email"
 								children={(field) => {
-									const _isInvalid =
+									const isInvalid =
 										field.state.meta.isTouched && !field.state.meta.isValid;
-									const _showError =
+									const showError =
 										field.state.meta.isTouched &&
 										field.state.meta.errors.length > 0;
 									return (
 										<Field>
 											<FieldLabel
 												className="capitalize font-heading"
-												htmlFor={field.name}
-											>
+												htmlFor={field.name}>
 												{field.name}
 											</FieldLabel>
 											<Input
@@ -115,12 +113,12 @@ const Login = () => {
 												onChange={(e) => {
 													field.handleChange(e.target.value);
 												}}
-												aria-invalid={_isInvalid}
+												aria-invalid={isInvalid}
 												placeholder="Enter your email"
 												disabled={isPending}
 												required
 											/>
-											{_showError && (
+											{showError && (
 												<>
 													{field.state.meta.errors.map((error) => {
 														return (
@@ -147,8 +145,7 @@ const Login = () => {
 										<Field>
 											<FieldLabel
 												htmlFor={field.name}
-												className="capitalize font-heading"
-											>
+												className="capitalize font-heading">
 												{field.name}
 											</FieldLabel>
 											<Input
@@ -178,8 +175,7 @@ const Login = () => {
 											)}
 											<Link
 												to="/"
-												className="max-w-fit inline-flex self-end text-sm hover:underline transition-all"
-											>
+												className="max-w-fit inline-flex self-end text-sm hover:underline transition-all">
 												Forgot Password?
 											</Link>
 										</Field>
@@ -194,8 +190,7 @@ const Login = () => {
 								<span>Don't have an account?</span>
 								<Link
 									to="/register"
-									className="text-gray-900 hover:underline transition-all"
-								>
+									className="text-gray-900 hover:underline transition-all">
 									Sign up
 								</Link>
 							</div>
