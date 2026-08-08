@@ -24,9 +24,9 @@ CREATE TABLE IF NOT EXISTS posts (
   slug VARCHAR(255) NOT NULL UNIQUE,
   content TEXT NOT NULL,
   status post_status NOT NULL DEFAULT 'draft',
-  published_at TIMESTAMPTZ,
+  published_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT NULL,
   deleted_at TIMESTAMPTZ DEFAULT NULL
 );
 
@@ -38,6 +38,18 @@ CREATE TABLE IF NOT EXISTS comments (
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   deleted_at TIMESTAMPTZ DEFAULT NULL
+);
+
+create table if not exists categories (
+	id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+	name TEXT unique not null,
+	slug TEXT unique not null
+);
+
+create table if not exists post_categories (
+	post_id UUID references posts(id) ON DELETE RESTRICT,
+	category_id UUID references categories(id) ON DELETE RESTRICT,
+	primary key (post_id, category_id)
 );
 
 CREATE INDEX idx_posts_author ON posts(author_id);

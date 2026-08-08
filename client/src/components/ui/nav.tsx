@@ -57,7 +57,7 @@ const NavBar = () => {
 
   const fullname = `${user?.last_name} ${user?.first_name}`;
   return (
-    <header className="flex items-center justify-center w-full bg-transparent px-2 md:px-0">
+    <header className="flex items-center justify-center w-full bg-background/80 backdrop-blur-2xl px-4 lg:px-0 fixed top-0 left-0 border-b border-border">
       <nav className="flex items-center justify-between font-heading w-full md:max-w-4xl xl:max-w-6xl py-3">
         <Link
           to={"/home"}
