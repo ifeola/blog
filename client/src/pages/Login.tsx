@@ -18,7 +18,8 @@ import { Spinner } from "@/components/ui/spinner";
 import { useAuthStore } from "@/store/useAuthStore";
 import API_PATHS from "@/utils/apiPaths";
 import type { LoginForm } from "../types/type";
-import LoginIcon from "@/components/ui_mine/Icons";
+// import LoginIcon from "@/components/ui_mine/Icons";
+import LoginImage from "@/assets/images/login-image.webp";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -202,8 +203,8 @@ const Login = () => {
             </FieldGroup>
           </form>
         </div>
-        <div className="hidden h-full w-full bg-background md:flex items-center justify-center">
-          <LoginIcon />
+        <div className="hidden h-full w-full bg-background md:flex items-center justify-center overflow-hidden">
+          <img src={LoginImage} className="min-w-full h-full aspect-auto" />
         </div>
       </div>
     </section>
