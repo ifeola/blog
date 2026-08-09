@@ -18,6 +18,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { useAuthStore } from "@/store/useAuthStore";
 import API_PATHS from "@/utils/apiPaths";
 import type { LoginForm } from "../types/type";
+import LoginIcon from "@/components/ui_mine/Icons";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -70,7 +71,7 @@ const Login = () => {
   });
 
   return (
-    <section className="bg-white h-svh">
+    <section className="bg-background h-svh">
       <div className="grid md:grid-cols-2 w-full p-4 h-full gap-4">
         <div className="w-full h-full flex items-center justify-center">
           <form
@@ -189,11 +190,11 @@ const Login = () => {
                 Sign in
                 {isPending && <Spinner />}
               </Button>
-              <div className="flex items-center justify-center gap-1 text-gray-500 text-sm">
+              <div className="flex items-center justify-center gap-1 text-foreground text-sm">
                 <span>Don't have an account?</span>
                 <Link
                   to="/register"
-                  className="text-gray-900 hover:underline transition-all"
+                  className="text-foreground hover:underline transition-all font-semibold"
                 >
                   Sign up
                 </Link>
@@ -201,7 +202,9 @@ const Login = () => {
             </FieldGroup>
           </form>
         </div>
-        <div className="hidden md:block h-full w-full bg-black"></div>
+        <div className="hidden h-full w-full bg-background md:flex items-center justify-center">
+          <LoginIcon />
+        </div>
       </div>
     </section>
   );

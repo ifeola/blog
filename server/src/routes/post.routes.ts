@@ -17,7 +17,7 @@ router
     authorize(["admin", "user"]),
     catchError(createBlogPost),
   )
-  .get("/:id", authenticate, catchError(getBlogPost))
+  .get("/:slug", authenticate, catchError(getBlogPost))
   .get("/", authenticate, catchError(getBlogPosts));
 
 export default router;

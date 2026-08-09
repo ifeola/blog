@@ -21,7 +21,8 @@ const createBlogPost = async (
   next: NextFunction,
 ) => {
   const userId = req.user?.user_id;
-  const { title, categoryName, content, status } = req.body;
+  const { title, categoryName, content, excerpt, coverImageUrl, status } =
+    req.body;
 
   const titleSlug = slug(title);
   const categorySlug = slug(categoryName);
@@ -45,12 +46,16 @@ const createBlogPost = async (
       title,
       slug: titleSlug,
       content,
-      status: "published",
+      excerpt,
+      coverImageUrl,
+      status,
     } as {
       authorId: string;
       title: string;
       slug: string;
       content: string;
+      excerpt: string;
+      coverImageUrl: string;
       status: "draft" | "published" | "archived";
     };
     const postResponse = await Post.createBlogPost(post, client);
@@ -80,8 +85,8 @@ const createBlogPost = async (
 };
 
 const getBlogPost = async (req: Request, res: Response, next: NextFunction) => {
-  const postId = req.params.id as string;
-  const post = await Post.getBlogPost(postId);
+  const postSlug = req.params.slug as string;
+  const post = await Post.getBlogPost(postSlug);
   return res.status(200).json({
     success: true,
     message: "Blog post retrieved successfully",

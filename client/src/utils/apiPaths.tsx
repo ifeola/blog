@@ -18,7 +18,7 @@ const API_PATHS = {
     CREATE: "/posts",
     UPDATE: (id: string) => `/posts/${id}`,
     DELETE: (id: string) => `/posts/${id}`,
-    GET_BY_ID: (id: string) => `/posts/${id}`,
+    GET_BY_SLUG: (slug: string) => `/posts/${slug}`,
   },
 };
 

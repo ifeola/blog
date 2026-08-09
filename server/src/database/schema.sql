@@ -23,6 +23,8 @@ CREATE TABLE IF NOT EXISTS posts (
   title VARCHAR(255) NOT NULL,
   slug VARCHAR(255) NOT NULL UNIQUE,
   content TEXT NOT NULL,
+  excerpt VARCHAR(500) NOT NULL,
+  cover_image_url TEXT,
   status post_status NOT NULL DEFAULT 'draft',
   published_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),

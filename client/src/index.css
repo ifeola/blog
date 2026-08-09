@@ -3,13 +3,16 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "@fontsource-variable/inter";
+@import "./styles/inter.css";
+@plugin "@tailwindcss/typography";
 /* @import "@fontsource-variable/geist"; */
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --font-heading: "Bricolage Grotesque", sans-serif;
-  --font-BioRhyme: "BioRhyme", sans-serif;
+  --font-sans: "InterVariable", "Inter", sans-serif;
   --color-navbar-ring: var(--navbar-ring);
   --color-navbar-border: var(--navbar-border);
   --color-navbar-accent-foreground: var(--navbar-accent-foreground);
@@ -145,15 +148,28 @@
   --navbar-ring: oklch(0.556 0 0);
 }
 
+.prose {
+  --tw-prose-body: var(--color-ink);
+  --tw-prose-headings: var(--color-ink);
+  --tw-prose-links: var(--color-clay);
+  --tw-prose-bold: var(--color-ink);
+  --tw-prose-code: var(--color-clay);
+}
+
+@utility font-inter-display {
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  font-variation-settings: "opsz" 32;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
-    @apply bg-background text-foreground;
-  }
-  html {
-    font-family: "BioRhyme", sans-serif;
+    @apply font-inter-display bg-background text-foreground;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    font-variation-settings: "opsz" 16;
   }
 
   h1 {
@@ -161,7 +177,7 @@
   }
 
   h2 {
-    @apply font-heading font-semibold text-foreground leading-none text-wrap text-2xl md:text-3xl;
+    @apply font-heading font-semibold text-foreground leading-snug text-wrap text-2xl md:text-3xl;
   }
 
   h3 {
@@ -182,7 +198,36 @@
 
   .grid-mine {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+    gap: 1.5rem;
+  }
+
+  .cls-1 {
+    fill: var(--brand);
+  }
+
+  .cls-2 {
+    fill: var(--brand-accent);
+  }
+
+  .cls-3 {
+    font-family: MyriadPro-Regular, "Myriad Pro";
+    font-size: 20.22px;
+  }
+
+  .cls-4 {
+    fill: var(--brand-accent);
+  }
+
+  .cls-5 {
+    fill: #f5f0e7;
+  }
+
+  .cls-6 {
+    fill: none;
+    stroke: #fdf4e4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2px;
   }
 }

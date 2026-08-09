@@ -1,36 +1,18 @@
 import api from "@/api/axios";
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-// import { useAuthStore } from "@/store/useAuthStore";
 import API_PATHS from "@/utils/apiPaths";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowUpRight } from "lucide-react";
-import { Link } from "react-router";
 import images from "@/assets/images";
+import type { Post } from "@/types/type";
+import BlogPost from "@/components/ui_mine/Post";
 
-interface Post {
-  author_id: string;
-  content: string;
-  deleted_at: string | null;
-  id: string;
-  published_at: string;
-  slug: string;
-  status: string;
-  title: string;
-  updated_at: string | null;
+function random_image() {
+  const randomImage = images[Math.floor(Math.random() * images.length)];
+
+  return randomImage;
 }
 
 const Home = () => {
-  // const user = useAuthStore((state) => state.user);
-
-  const { isLoading, data, error, refetch } = useQuery({
+  const { isLoading, data } = useQuery({
     queryKey: ["posts"],
     queryFn: async () => {
       const response = await api.get(API_PATHS.POST.LIST);
@@ -38,8 +20,6 @@ const Home = () => {
     },
     staleTime: 1000 * 60 * 5,
   });
-
-  console.log(data);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -68,41 +48,8 @@ const Home = () => {
           <h2>Top Blog Posts</h2>
 
           <div className="grid-mine">
-            {data.map((post: Post) => {
-              const randomImage =
-                images[Math.floor(Math.random() * images.length)];
-
-              return (
-                <Card className="grid row-span-4 grid-rows-subgrid gap-1.5 overflow-clip">
-                  <CardHeader className="bg-accent-foreground h-full">
-                    <img
-                      src={randomImage}
-                      alt={post.title}
-                      className="w-full h-full object-cover rounded-t-xl"
-                    />
-                  </CardHeader>
-                  <CardContent>
-                    <CardTitle>{post.title}</CardTitle>
-                  </CardContent>
-                  <CardContent>
-                    <CardDescription className="text-muted-foreground text-sm leading-relaxed line-clamp-3">
-                      {post.content}
-                    </CardDescription>
-                  </CardContent>
-
-                  <CardFooter>
-                    <CardAction className="ml-auto">
-                      <Link
-                        to={`/blog/${post.slug}`}
-                        className="text-foreground"
-                      >
-                        Read more
-                        <ArrowUpRight className="inline-block" size={16} />
-                      </Link>
-                    </CardAction>
-                  </CardFooter>
-                </Card>
-              );
+            {data.slice(0, 3).map((post: Post) => {
+              return <BlogPost img={random_image()} post={post} />;
             })}
           </div>
         </div>
