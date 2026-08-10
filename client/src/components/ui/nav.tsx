@@ -78,7 +78,7 @@ const NavBar = () => {
           to={"/home"}
           className="flex items-center justify-center text-md font-semibold bg-background/90 border border-border text-white rounded-full h-9.5 px-4"
         >
-          <h5 className="text-white mix-blend-difference">NxtDev.</h5>
+          <h5 className="text-white mix-blend-difference">Kindled.</h5>
         </Link>
         <ul className="relative flex items-center bg-background/90 backdrop-blur-lg border border-border rounded-full p-1">
           {links.map((link) => {

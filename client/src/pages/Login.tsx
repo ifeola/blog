@@ -72,9 +72,9 @@ const Login = () => {
   });
 
   return (
-    <section className="bg-background h-svh">
+    <section className="bg-black h-svh">
       <div className="grid md:grid-cols-2 w-full p-4 h-full gap-4">
-        <div className="w-full h-full flex items-center justify-center">
+        <div className="w-full h-full flex items-center justify-center border border-white/20 bg-gray-900/30">
           <form
             className="w-full max-w-md"
             onSubmit={(e) => {
@@ -84,7 +84,7 @@ const Login = () => {
             }}
           >
             <FieldGroup>
-              <FieldSet>
+              <FieldSet className="text-secondary">
                 <FieldLegend className="font-heading">
                   Welcome Back!
                 </FieldLegend>
@@ -103,12 +103,13 @@ const Login = () => {
                   return (
                     <Field>
                       <FieldLabel
-                        className="capitalize font-heading"
+                        className="capitalize font-heading text-muted"
                         htmlFor={field.name}
                       >
                         {field.name}
                       </FieldLabel>
                       <Input
+                        className="border-ring/20"
                         id={field.name}
                         name={field.name}
                         value={field.state.value}
@@ -148,11 +149,12 @@ const Login = () => {
                     <Field>
                       <FieldLabel
                         htmlFor={field.name}
-                        className="capitalize font-heading"
+                        className="capitalize font-heading text-muted"
                       >
                         {field.name}
                       </FieldLabel>
                       <Input
+                        className="border-ring/20"
                         id={field.name}
                         name={field.name}
                         value={field.state.value}
@@ -179,7 +181,7 @@ const Login = () => {
                       )}
                       <Link
                         to="/"
-                        className="max-w-fit inline-flex self-end text-sm hover:underline transition-all"
+                        className="max-w-fit inline-flex self-end text-sm text-muted hover:underline transition-all"
                       >
                         Forgot Password?
                       </Link>
@@ -191,11 +193,11 @@ const Login = () => {
                 Sign in
                 {isPending && <Spinner />}
               </Button>
-              <div className="flex items-center justify-center gap-1 text-foreground text-sm">
+              <div className="flex items-center justify-center gap-1 text-muted text-sm">
                 <span>Don't have an account?</span>
                 <Link
                   to="/register"
-                  className="text-foreground hover:underline transition-all font-semibold"
+                  className="text-muted hover:underline transition-all font-semibold"
                 >
                   Sign up
                 </Link>
@@ -203,7 +205,7 @@ const Login = () => {
             </FieldGroup>
           </form>
         </div>
-        <div className="hidden h-full w-full bg-background md:flex items-center justify-center overflow-hidden">
+        <div className="hidden h-full w-full bg-black md:flex items-center justify-center overflow-hidden">
           <img src={LoginImage} className="min-w-full h-full aspect-auto" />
         </div>
       </div>
